@@ -1,7 +1,7 @@
 class Nerv < Formula
   desc "Inline shell completion for macOS + zsh — Fig port, no Electron, no AI"
   homepage "https://nerv.sh"
-  version "0.1.0"
+  version "0.1.1"
   license "Apache-2.0"
 
   depends_on :macos
@@ -9,7 +9,7 @@ class Nerv < Formula
 
   on_macos do
     url "https://github.com/nerv-sh/nerv/releases/download/v#{version}/nerv-#{version}-aarch64-apple-darwin.tar.gz"
-    sha256 "0e2680e526f353869d7946eea0daa789e8425099efbb47726c474c6b10df482e"
+    sha256 "571c7748e4e47a30f5f1bbb8124af8c97d0fdc6ec2cb607ae21952ce51f06c12"
   end
 
   def install
@@ -18,18 +18,22 @@ class Nerv < Formula
     # nerv-pty is the M1 opt-in figterm-style PTY shim. Idle
     # unless the user sets NERV_PTY=1 before launching the shell.
     bin.install "nerv-pty" if File.exist?("nerv-pty")
+    # 700+ completion specs (gzipped JSON + schema manifest). The engine
+    # reads them from share/nerv/specs (relative to the binary) whenever
+    # the user spec cache is empty — no post-install spec step needed.
+    pkgshare.install "specs" if File.exist?("specs")
   end
 
   def caveats
     <<~EOS
-      Add the following to your ~/.zshrc to enable inline completion:
+      Run this once — it installs the shell hook into your ~/.zshrc and
+      activates completion in the current session (the daemon starts
+      automatically):
 
         eval "$(nerv init zsh)"
 
-      Then either restart your shell or run `nerv start` to spawn the daemon.
-      Run `nerv doctor` at any time to verify the install.
-
-      To remove every trace of nerv: `nerv uninstall`.
+      `nerv doctor` verifies the install.
+      `nerv uninstall` removes every trace.
     EOS
   end
 
