@@ -1,7 +1,7 @@
 class Nerv < Formula
   desc "Inline shell completion for macOS + zsh — Fig port, no Electron, no AI"
   homepage "https://nerv.sh"
-  version "0.1.54"
+  version "0.1.55"
   license "Apache-2.0"
 
   depends_on :macos
@@ -9,7 +9,7 @@ class Nerv < Formula
 
   on_macos do
     url "https://github.com/nerv-sh/nerv/releases/download/v#{version}/nerv-#{version}-aarch64-apple-darwin.tar.gz"
-    sha256 "6ab91a5ed52e503f0fc256a41e7594cb2bd259c7100b0efd618d0e06d8fb37cb"
+    sha256 "77b7804d1982ffa69f8fe5483269bee2f6c8c4663e30cbb52b65c4df592362e5"
   end
 
   def install
